@@ -1,5 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
+from tkinter import font
+
+from calculator_logic import on_button_click
 
 def config_app():
     # style fixed
@@ -12,7 +15,7 @@ def config_app():
     style.configure("TButton", font=("Arial", 16), padding=10)
     style.configure("TEntry", font=("Arial", 20))
 
-    display = ttk.Entry(root, justify="right")
+    display = ttk.Entry(root, justify="right", font=("Arial", 16))
     display.grid(row=0, column=0, columnspan=4, ipadx=8, ipady=15, padx=10, pady=10, sticky="nsew")
     #state for the calculator to keep in memory
     state = {"first_value": "", "operator": ""}
@@ -25,17 +28,17 @@ def config_app():
         ["7", "8", "9", "-"],
         ["4", "5", "6", "+"],
         ["1", "2", "3", ""],
-        ["0", ".", "", ""]
+        ["0", ".", "←", ""]
     ]
 
     for r, row in enumerate(buttons, start=1):
         for c, text in enumerate(row):
             if not text:
                 continue
-            btn = ttk.Button(root, text=text)
+            btn = ttk.Button(root, text=text, command=lambda t=text: on_button_click(t,display,state))
             btn.grid(row=r, column=c, padx=5, pady=5, sticky="nsew")
 
-    equal_btn = ttk.Button(root, text="=")
+    equal_btn = ttk.Button(root, text="=", command=lambda: on_button_click("=",display,state))
     equal_btn.grid(row=5, column=3, rowspan=2, padx=5, pady=5, sticky="nsew")
 
     for i in range(4):
